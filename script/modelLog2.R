@@ -4,7 +4,7 @@
 ## Author: Kai He
 ##
 
-## Logistic Regression with Variable Reduction
+## Logistic Regression 2: Variable Selection
 ## 4/23/2014
 
 # perform logistic regression on the reducted variable sets
@@ -71,7 +71,7 @@ pred2.soh.log2 <- predict(log.net.final2, newdata=soh.ex, type="prob")[,2]
 roc2.soh.log2 <- prediction(pred2.soh.log2, soh.ex$Happy)
 auc2.soh.log2 <- as.numeric(performance(roc2.soh.log2, "auc")@y.values) # **** 0.7636715 ****
 
-final.models2 <- list(LogNet=list(model=log.net.final2, cv=log.net.final2$results["ROC"], in.sam=auc2.soh.log2))
+final.models2 <- list(LogNet=list(model=log.net.final2, cv=log.net.final2$results$ROC, in.sam=auc2.soh.log2))
 
 # apply ridge logistic regression model on test set
 pred2.log <- predict(final.models2$LogNet$model, newdata=soh.test.ex, type="prob")[,2]
