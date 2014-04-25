@@ -57,13 +57,13 @@ sort.var.soh <- data.frame(list(Var=rownames(rf.var$importance)[var.soh$ix], Imp
 head(sort.var.soh, 30)
 var.set.soh <- unique(c(names(soh.ex[2:11]), as.character(sort.var.soh$Var[1:40])))
 
-
+cv.control <- trainControl(method="repeatedcv", number=10, repeats=3, classProb=T, summaryFunction = twoClassSummary)
 final.control <- trainControl(method="cv", number=10, classProb=T, summaryFunction = twoClassSummary)
 set.seed(86)
 log.net.final2 <- train(Happy ~. + Gender * EducationLevel, data=soh.ex[var.set.soh], method='glmnet', family="binomial",
   metric = "ROC",
-  tuneGrid = expand.grid(.alpha=0, .lambda=0.05),
-  trControl=final.control)
+  tuneGrid = expand.grid(.alpha=0, .lambda=seq(0.01, 0.2, by=0.01)),
+  trControl=ensemble.control)
 log.net.final2$results
 #  0.7415531
 
